@@ -1,0 +1,8 @@
+node_modules
+npm-debug.log
+server/uploads
+.env
+dist
+\.git
+package-lock.json
+**/node_modules

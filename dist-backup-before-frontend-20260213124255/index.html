@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ApeAcademy — Premium Student Assignment Platform</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #0a0d12 0%, #050810 100%); color: #f3f4f6; min-height: 100vh; display: flex; flex-direction: column; }
+    header { padding: 24px 16px; border-bottom: 1px solid #1f2937; }
+    .header-content { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; gap: 16px; }
+    .logo-container { display: flex; align-items: center; gap: 12px; }
+    .logo { width: 48px; height: 48px; }
+    .header h1 { font-size: 24px; font-weight: 700; }
+    .tagline { font-size: 12px; color: #9ca3af; }
+
+    main { flex: 1; padding: 48px 16px; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    
+    .hero { text-align: center; margin-bottom: 64px; }
+    .hero h2 { font-size: 48px; font-weight: 700; margin-bottom: 16px; background: linear-gradient(135deg, #f59e0b, #fbbf24); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero p { font-size: 18px; color: #d1d5db; margin-bottom: 32px; max-width: 600px; margin-left: auto; margin-right: auto; }
+    
+    .cta-buttons { display: flex; gap: 16px; justify-content: center; margin-bottom: 48px; flex-wrap: wrap; }
+    .btn { padding: 12px 32px; font-size: 16px; font-weight: 600; border: none; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; display: inline-block; }
+    .btn-primary { background: linear-gradient(135deg, #f59e0b, #fbbf24); color: #000; }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 24px rgba(245, 158, 11, 0.4); }
+    .btn-secondary { background: #1f2937; color: #f3f4f6; border: 1px solid #374151; }
+    .btn-secondary:hover { background: #374151; }
+    
+    .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 48px; }
+    .feature-card { background: #0a0d12; border: 1px solid #1f2937; border-radius: 12px; padding: 24px; }
+    .feature-icon { font-size: 32px; margin-bottom: 12px; }
+    .feature-card h3 { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+    .feature-card p { font-size: 14px; color: #9ca3af; line-height: 1.6; }
+
+    .endpoints { background: #0a0d12; border: 1px solid #1f2937; border-radius: 12px; padding: 24px; margin-top: 48px; }
+    .endpoints h3 { font-size: 20px; font-weight: 600; margin-bottom: 16px; }
+    .endpoint-list { list-style: none; }
+    .endpoint-item { padding: 8px 0; font-size: 14px; color: #d1d5db; }
+    .endpoint-item code { background: #050810; padding: 4px 8px; border-radius: 4px; font-family: 'Courier New', monospace; color: #fbbf24; }
+    
+    footer { padding: 24px 16px; border-top: 1px solid #1f2937; text-align: center; color: #6b7280; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <div class="logo-container">
+        <svg class="logo" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+          <rect width="120" height="120" rx="16" fill="#f59e0b" />
+          <g transform="translate(18,18)">
+            <circle cx="24" cy="20" r="18" fill="#1f2937" />
+            <rect x="6" y="44" width="36" height="18" rx="4" fill="#111827" />
+            <circle cx="12" cy="18" r="3" fill="#111827" />
+            <circle cx="36" cy="18" r="3" fill="#111827" />
+          </g>
+        </svg>
+        <div>
+          <h1>ApeAcademy</h1>
+          <span class="tagline">Premium Student Assignment Platform</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <div class="hero">
+        <h2>🦍 Learn Smarter, Submit Better</h2>
+        <p>Connect with tutors, submit assignments securely, and track your academic progress in one unified platform.</p>
+        <div class="cta-buttons">
+          <a href="/dev/avatar.html" class="btn btn-primary">Get Started</a>
+          <a href="#features" class="btn btn-secondary">Learn More</a>
+        </div>
+      </div>
+
+      <div id="features">
+        <div class="features">
+          <div class="feature-card">
+            <div class="feature-icon">📝</div>
+            <h3>Smart Assignments</h3>
+            <p>Create, submit, and track assignments with real-time feedback from instructors.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">💳</div>
+            <h3>Secure Payments</h3>
+            <p>Pay tutoring fees and course fees securely via Flutterwave. Multi-currency support included.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">👤</div>
+            <h3>Student Profiles</h3>
+            <p>Create your profile, upload an avatar, and showcase your academic journey.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🌍</div>
+            <h3>Global Reach</h3>
+            <p>Connect with students and tutors across multiple regions and countries.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">⚡</div>
+            <h3>Fast & Reliable</h3>
+            <p>Built with modern tech for speed, security, and scalability.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🔐</div>
+            <h3>Privacy First</h3>
+            <p>Your data is encrypted and protected with enterprise-grade security.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="endpoints">
+        <h3>📡 API Endpoints</h3>
+        <ul class="endpoint-list">
+          <li class="endpoint-item"><code>GET /api/health</code> — Health check</li>
+          <li class="endpoint-item"><code>POST /api/auth/signup</code> — Register a new account</li>
+          <li class="endpoint-item"><code>POST /api/auth/login</code> — Log in to your account</li>
+          <li class="endpoint-item"><code>GET /api/auth/me</code> — Get current user info (requires JWT)</li>
+          <li class="endpoint-item"><code>POST /api/payments/initiate</code> — Start a payment (requires JWT)</li>
+          <li class="endpoint-item"><code>GET /api/payments/verify/:tx_ref</code> — Verify payment (requires JWT)</li>
+          <li class="endpoint-item"><code>POST /api/profile/avatar</code> — Upload avatar (requires JWT)</li>
+          <li class="endpoint-item"><code>POST /api/assignments/create</code> — Create assignment (requires JWT)</li>
+          <li class="endpoint-item"><code>GET /api/assignments/my</code> — Get your assignments (requires JWT)</li>
+          <li class="endpoint-item"><code>GET /api/regions</code> — List regions</li>
+        </ul>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 ApeAcademy. All rights reserved. | <a href="/dev" style="color: #9ca3af; text-decoration: none;">Dev UI</a></p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: apeacademy-db
+    environment:
+      POSTGRES_USER: apeacademy
+      POSTGRES_PASSWORD: apeacademy123
+      POSTGRES_DB: apeacademy
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U apeacademy"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - apeacademy
+
+  # Node.js API Server
+  api:
+    build: .
+    container_name: apeacademy-api
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgresql://apeacademy:apeacademy123@postgres:5432/apeacademy
+      JWT_SECRET: ${JWT_SECRET:-your-super-secret-key-change-in-production-min-32-chars-required}
+      FLUTTERWAVE_PUBLIC_KEY: ${FLUTTERWAVE_PUBLIC_KEY}
+      FLUTTERWAVE_SECRET_KEY: ${FLUTTERWAVE_SECRET_KEY}
+      FLUTTERWAVE_ENCRYPTION_KEY: ${FLUTTERWAVE_ENCRYPTION_KEY}
+      PORT: 3000
+      API_BASE_URL: http://localhost:3000
+      FRONTEND_URL: http://localhost:3000
+    ports:
+      - "3000:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./server/uploads:/app/server/uploads
+    networks:
+      - apeacademy
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+volumes:
+  postgres_data:
+
+networks:
+  apeacademy:
+    driver: bridge

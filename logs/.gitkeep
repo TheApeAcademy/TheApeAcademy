@@ -1,0 +1,6 @@
+# Logs directory
+This directory stores application logs.
+
+- `combined.log` - All application logs
+- `error.log` - Error logs only
+- `exceptions.log` - Uncaught exceptions

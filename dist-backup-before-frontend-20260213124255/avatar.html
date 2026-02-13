@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ApeAcademy — Dev UI</title>
+  <style>
+    body { font-family: system-ui, Arial; max-width:720px; margin:24px auto; padding:12px; }
+    .card { padding:16px; border:1px solid #eee; border-radius:8px; margin-bottom:12px }
+    img.logo { width:120px; height:120px; }
+    input, button { font-size:16px; padding:8px; margin:6px 0; width:100%; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <img src="/dev/logo.svg" class="logo" alt="ApeAcademy logo" />
+    <h2>Dev UI — Avatar Upload</h2>
+    <p>Use the forms below to sign up, log in, and upload an avatar. This is a lightweight test UI only for local dev.</p>
+  </div>
+
+  <div class="card">
+    <h3>1) Signup</h3>
+    <input id="su-fullName" placeholder="Full name" />
+    <input id="su-email" placeholder="Email" />
+    <input id="su-password" placeholder="Password" type="password" />
+    <button id="btn-signup">Signup</button>
+    <pre id="signup-res"></pre>
+  </div>
+
+  <div class="card">
+    <h3>2) Login</h3>
+    <input id="li-email" placeholder="Email" />
+    <input id="li-password" placeholder="Password" type="password" />
+    <button id="btn-login">Login</button>
+    <pre id="login-res"></pre>
+  </div>
+
+  <div class="card">
+    <h3>3) Upload Avatar</h3>
+    <input type="file" id="avatar-file" accept="image/*" />
+    <button id="btn-upload">Upload Avatar</button>
+    <pre id="upload-res"></pre>
+    <div id="avatar-preview"></div>
+  </div>
+
+<script>
+const BASE = '';
+let token = null;
+
+async function jsonFetch(path, opts={}){
+  const res = await fetch(path, opts);
+  let body = null; try { body = await res.json(); } catch(e){ body = await res.text(); }
+  return { status: res.status, body };
+}
+
+document.getElementById('btn-signup').onclick = async () => {
+  const fullName = document.getElementById('su-fullName').value;
+  const email = document.getElementById('su-email').value;
+  const password = document.getElementById('su-password').value;
+  const r = await jsonFetch('/api/auth/signup', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ fullName, email, password, confirmPassword: password }) });
+  document.getElementById('signup-res').innerText = JSON.stringify(r, null, 2);
+}
+
+document.getElementById('btn-login').onclick = async () => {
+  const email = document.getElementById('li-email').value;
+  const password = document.getElementById('li-password').value;
+  const r = await jsonFetch('/api/auth/login', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ email, password }) });
+  document.getElementById('login-res').innerText = JSON.stringify(r, null, 2);
+  if (r.status === 200 && r.body && r.body.token) { token = r.body.token; }
+}
+
+document.getElementById('btn-upload').onclick = async () => {
+  const fileInput = document.getElementById('avatar-file');
+  if (!fileInput.files.length) return alert('Select a file');
+  const form = new FormData();
+  form.append('avatar', fileInput.files[0]);
+  const headers = {};
+  if (token) headers['Authorization'] = 'Bearer ' + token;
+  const res = await fetch('/api/profile/avatar', { method:'POST', body: form, headers });
+  const body = await res.json().catch(()=> null);
+  document.getElementById('upload-res').innerText = JSON.stringify({ status: res.status, body }, null, 2);
+  if (body && body.avatarUrl) {
+    const img = document.createElement('img'); img.src = body.avatarUrl; img.style.maxWidth='160px'; img.style.borderRadius='8px';
+    const preview = document.getElementById('avatar-preview'); preview.innerHTML=''; preview.appendChild(img);
+  }
+}
+</script>
+</body>
+</html>

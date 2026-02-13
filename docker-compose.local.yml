@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: apeuser
+      POSTGRES_PASSWORD: apepass
+      POSTGRES_DB: apeacademy
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  app:
+    image: node:18
+    working_dir: /usr/src/app
+    volumes:
+      - ./:/usr/src/app:cached
+      - uploads:/usr/src/app/server/uploads
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    depends_on:
+      - db
+    command: sh -c "npm ci && npm run server:dev"
+    networks:
+      - app-network
+
+volumes:
+  db-data:
+  uploads:
+
+networks:
+  app-network:
+    driver: bridge

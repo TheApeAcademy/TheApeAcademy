@@ -1,0 +1,77 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String   @id @default(cuid())
+  fullName          String
+  email             String   @unique
+  avatarUrl         String?  @default(null)
+  passwordHash      String
+  region            String
+  country           String
+  educationLevel    String   // "middle school", "high school", "university"
+  departmentOrCourse String?
+  role              String   @default("user") // "user", "admin"
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  assignments Assignment[]
+  payments    Payment[]
+
+  @@index([email])
+  @@index([role])
+}
+
+model Assignment {
+  id                  String   @id @default(cuid())
+  userId              String
+  subject             String
+  description         String
+  educationLevel      String   // "middle school", "high school", "university"
+  departmentOrCourse  String?
+  deadline            DateTime
+  fileUrl             String   // URL to uploaded file (Cloudinary or local)
+  fileName            String?
+  deliveryPlatform    String   // "whatsapp", "email", "google_messages", "imessage"
+  paymentId           String?
+  status              String   @default("pending") // "pending", "in_progress", "delivered"
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  user    User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  payment Payment? @relation(fields: [paymentId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([paymentId])
+  @@index([status])
+}
+
+model Payment {
+  id                     String   @id @default(cuid())
+  userId                 String
+  assignmentId           String?
+  amount                 Float
+  currency               String   @default("NGN") // Nigerian Naira
+  transactionReference   String   @unique @default(cuid())
+  flutterwaveTransactionId String?
+  paymentStatus          String   @default("pending") // "pending", "successful", "failed"
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  assignments Assignment[]
+
+  @@index([userId])
+  @@index([paymentStatus])
+  @@index([flutterwaveTransactionId])
+  @@index([transactionReference])
+}
